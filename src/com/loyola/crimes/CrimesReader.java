@@ -1,11 +1,10 @@
 package com.loyola.crimes;
 
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class CrimesReader {
 
@@ -18,23 +17,34 @@ public class CrimesReader {
 	
 	public void run() {
 
-		String csvFile = "teste.txt";
+		String csvFile = "crimes2001-now_LSC.csv";
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",";
+		ArrayList<Crime> crimeList = new ArrayList<Crime>();
 		
 		try {
 
 			
-			br = new BufferedReader(new FileReader("recentCrimes.csv"));
-			 
+			br = new BufferedReader(new FileReader(csvFile));
+			int i= 0;
 			while ((line = br.readLine()) != null) {
 
-			        // use comma as separator
-				String[] description = line.split(cvsSplitBy);
+				Crime crime = new Crime();
+				String[] csvData = line.split(cvsSplitBy);
+				
+				crime.setCaseNumber(csvData[0]);
+				crime.setDate(csvData[2]);
+				crime.setTime(csvData[2]);
+				crime.setPrimaryDescription(csvData[5]);
+				crime.setSecondaryDescription(csvData[6]);
+				crime.setLocation(csvData[7]);
+				crime.setArrest(csvData[8]=="true"?true:false);
 
-				System.out.println("Description [Primary= " + description[4] 
-	                                 + " , Secondary=" + description[5] + "]");
+				crimeList.add(crime);
+				
+				System.out.println(((Crime)crimeList.get(i)).getCaseNumber());
+				i++;
 
 			}
 
@@ -51,11 +61,6 @@ public class CrimesReader {
 				}
 			}
 		}
-
-		System.out.println("Done");
 	  }
-	
-	
-	
 
 }
