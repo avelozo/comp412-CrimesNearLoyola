@@ -20,7 +20,7 @@ public class CrimesReader {
 		String csvFile = "crimes2001-now_LSC.csv";
 		BufferedReader br = null;
 		String line = "";
-		String cvsSplitBy = ",";
+		String cvsSplitBy = ",(?![^(]*\\))";
 		ArrayList<Crime> crimeList = new ArrayList<Crime>();
 		
 		try {
@@ -39,11 +39,16 @@ public class CrimesReader {
 				crime.setPrimaryDescription(csvData[5]);
 				crime.setSecondaryDescription(csvData[6]);
 				crime.setLocation(csvData[7]);
-				crime.setArrest(csvData[8]=="true"?true:false);
+				//crime.setArrest(csvData[8].toLowerCase()=="true"?true:false);
 
 				crimeList.add(crime);
-				
-				System.out.println(((Crime)crimeList.get(i)).getCaseNumber());
+				System.out.println(csvData[0]+ " | " + csvData[2]+
+						"  " + csvData[3] + " | " + csvData[4]+ "  | " + csvData[5] 
+								+ " | " +  csvData[6] +"  |   " + csvData[7 ] + " |  " +  csvData[8] +
+								"   |  "+ csvData[9] + "   |  "+ csvData[10] + "   |  "+ csvData[11]
+										+ "   |  "+ csvData[12] + "   |  "+ csvData[13] + "   |  "+ csvData[14]
+												+ "   |  "+ csvData[15] + "   |  "+ csvData[16] + "   |  "+ csvData[17]);
+			 //  System.out.println(((Crime)crimeList.get(i)).isArrest());
 				i++;
 
 			}
