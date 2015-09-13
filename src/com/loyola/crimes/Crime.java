@@ -6,9 +6,10 @@ public class Crime {
 	private boolean arrest;
 	private String date;
 	private String time;
-	private String location;
+	private String locationType;
 	private String primaryDescription;
 	private String secondaryDescription;
+	
 	
 	
 	public String getCaseNumber() {
@@ -35,11 +36,11 @@ public class Crime {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public String getLocation() {
-		return location;
+	public String getLocationtType() {
+		return locationType;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setLocationType(String locationType) {
+		this.locationType = locationType;
 	}
 	public String getPrimaryDescription() {
 		return primaryDescription;

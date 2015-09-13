@@ -5,11 +5,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 public class CrimesReader {
+	
+	private Selector selector;
 
 	public static void main(String[] args) {
 		CrimesReader obj = new CrimesReader();
+		 System.out.println("main");
 		obj.run();
 
 	}
@@ -22,10 +30,9 @@ public class CrimesReader {
 		String line = "";
 		String cvsSplitBy = ",(?![^(]*\\))";
 		ArrayList<Crime> crimeList = new ArrayList<Crime>();
-		
+System.out.println("run");
 		try {
 
-			
 			br = new BufferedReader(new FileReader(csvFile));
 			int i= 0;
 			while ((line = br.readLine()) != null) {
@@ -34,23 +41,15 @@ public class CrimesReader {
 				String[] csvData = line.split(cvsSplitBy);
 				
 				crime.setCaseNumber(csvData[0]);
-				crime.setDate(csvData[2]);
-				crime.setTime(csvData[2]);
-				crime.setPrimaryDescription(csvData[5]);
-				crime.setSecondaryDescription(csvData[6]);
-				crime.setLocation(csvData[7]);
-				//crime.setArrest(csvData[8].toLowerCase()=="true"?true:false);
-
+				crime.setDate(csvData[1]);
+				crime.setTime(csvData[1]);
+				crime.setPrimaryDescription(csvData[4]);
+				crime.setSecondaryDescription(csvData[5]);
+				crime.setLocationType(csvData[6]);
+				crime.setArrest(csvData[7].equalsIgnoreCase("true") ? true : false);
 				crimeList.add(crime);
-				System.out.println(csvData[0]+ " | " + csvData[2]+
-						"  " + csvData[3] + " | " + csvData[4]+ "  | " + csvData[5] 
-								+ " | " +  csvData[6] +"  |   " + csvData[7 ] + " |  " +  csvData[8] +
-								"   |  "+ csvData[9] + "   |  "+ csvData[10] + "   |  "+ csvData[11]
-										+ "   |  "+ csvData[12] + "   |  "+ csvData[13] + "   |  "+ csvData[14]
-												+ "   |  "+ csvData[15] + "   |  "+ csvData[16] + "   |  "+ csvData[17]);
-			 //  System.out.println(((Crime)crimeList.get(i)).isArrest());
-				i++;
-
+			
+				
 			}
 
 		} catch (FileNotFoundException e) {
@@ -66,6 +65,55 @@ public class CrimesReader {
 				}
 			}
 		}
-	  }
-
+	
+		HashMap<String,Integer> frequencyMap = countCrimesByData(crimeList, Selector.PRIMARYDESCRIPTION);
+		
+		
+		Iterator it = frequencyMap.entrySet().iterator();
+		while(it.hasNext()){
+			
+			 Map.Entry pair = (Map.Entry)it.next();
+			 System.out.println(pair.getKey() + "=" + pair.getValue());
+		     it.remove(); // avoids a ConcurrentModificationException
+		     
+		}
+		
+	}
+	
+	
+	
+	// Method that will count crimes by what you selected in the enum Selector
+	public HashMap<String,Integer> countCrimesByData(ArrayList<Crime> crimeList, Selector selector){
+	
+		HashMap<String,Integer> frequencyMap = new HashMap<String,Integer>();
+		String data= "";
+		Iterator<Crime> i = crimeList.iterator();
+		while(crimeList!=null && i.hasNext()){
+		
+			
+			switch (selector) {
+			case PRIMARYDESCRIPTION:
+			 data = i.next().getPrimaryDescription();
+			break;
+			case DATE:
+				data = i.next().getDate();
+			break;
+			default	:
+			data = "";
+			break;
+			}	
+			if(frequencyMap.containsKey(data)){
+			    frequencyMap.put(data, frequencyMap.get(data)+1);
+			  }
+			  else{ 
+				
+				  frequencyMap.put(data, 1);
+			   }
+			
+		}
+		
+		return frequencyMap;	
+	}
+	
+	
 }
