@@ -9,7 +9,7 @@ public class Crime {
 	private String locationType;
 	private String primaryDescription;
 	private String secondaryDescription;
-	
+	private String year;
 	
 	
 	public String getCaseNumber() {
@@ -18,6 +18,15 @@ public class Crime {
 	public void setCaseNumber(String caseNumber) {
 		this.caseNumber = caseNumber;
 	}
+	
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	
+	
 	public boolean isArrest() {
 		return arrest;
 	}

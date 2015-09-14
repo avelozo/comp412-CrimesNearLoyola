@@ -2,5 +2,5 @@ package com.loyola.crimes;
 
 public enum Selector {
 
-	    PRIMARYDESCRIPTION, SECDESCRIPTION, DATE, LOCATION
+	    PRIMARYDESCRIPTION, SECDESCRIPTION, DATE, LOCATION, YEAR
 }

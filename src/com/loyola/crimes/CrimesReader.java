@@ -1,9 +1,11 @@
 package com.loyola.crimes;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,15 +16,47 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
 
 public class CrimesReader {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		CrimesReader obj = new CrimesReader();
 		ArrayList<Crime> crimeList = new ArrayList();
 		crimeList = obj.run();
+	//	String input = System.console().readLine();
+		String s="9";
 		
+		do{
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	        System.out.print("Select crimes by:"+
+			"\n 1- PRIMARY DESCRIPTION"
+			+ "\n 2- SECONDARY DESCRIPTION"
+			+ "\n 3- DATE"
+			+ "\n 4- LOCATION"
+			+ "\n 5- YEAR"
+			+ "\n Press any other key to exit ");
+	        s = br.readLine();
+			
+	    switch(s){ 
+	    case "1":
+		obj.showCrimesbyType(crimeList,Selector.PRIMARYDESCRIPTION);
+		break;
+	    case "2":
+	    obj.showCrimesbyType(crimeList,Selector.SECDESCRIPTION);
+	    break;
+	    case "3":
+	    obj.showCrimesbyType(crimeList,Selector.DATE);
+	    break;
+	    case "4":
+	    	obj.showCrimesbyType(crimeList,Selector.LOCATION);	
+	    break;
+	    case "5":
+	    	obj.showCrimesbyType(crimeList,Selector.YEAR);	
+	    break;
+	    default:
+	    	s="exit";
+	    }
+		}while(s!="exit");
 	}
 	
 	
@@ -49,6 +83,7 @@ public class CrimesReader {
 				crime.setSecondaryDescription(csvData[5]);
 				crime.setLocationType(csvData[6]);
 				crime.setArrest(csvData[7].equalsIgnoreCase("true") ? true : false);
+				crime.setYear(csvData[14]);
 				crimeList.add(crime);
 			
 				
@@ -124,6 +159,9 @@ public class CrimesReader {
 			break;
 			case LOCATION:
 				data = i.next().getLocationtType();
+			break;
+			case YEAR:
+				data = i.next().getYear();
 			break;
 			default	:
 			data = "";
