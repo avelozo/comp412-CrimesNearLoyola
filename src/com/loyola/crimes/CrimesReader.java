@@ -1,7 +1,6 @@
 package com.loyola.crimes;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,8 +21,7 @@ public class CrimesReader {
 	public static void main(String[] args) throws IOException {
 		CrimesReader obj = new CrimesReader();
 		ArrayList<Crime> crimeList = new ArrayList();
-		crimeList = obj.run();
-	//	String input = System.console().readLine();
+		crimeList = obj.run("crimes2001-now_LSC.csv");
 		String s="9";
 		
 		do{
@@ -61,9 +59,8 @@ public class CrimesReader {
 	
 	
 	
-	public ArrayList<Crime> run() {
+	public ArrayList<Crime> run(String csvFile) {
 
-		String csvFile = "crimes2001-now_LSC.csv";
 		BufferedReader br = null;
 		String line = "";
 		String cvsSplitBy = ",(?![^(]*\\))";
@@ -107,8 +104,6 @@ public class CrimesReader {
 	}
 	
 	public void showCrimesbyType (ArrayList<Crime> crimeList, Selector selector){
-		
-		
 		HashMap<String,Integer> frequencyMap = countCrimesByData(crimeList, selector);	
 		frequencyMap = sortByValues(frequencyMap);
 		Iterator it = frequencyMap.entrySet().iterator();
@@ -116,8 +111,7 @@ public class CrimesReader {
 			 Map.Entry pair = (Map.Entry)it.next();
 			System.out.println(pair.getKey() + "=" + pair.getValue());
 		     it.remove(); 
-		     
-		}
+		   }
 	}
 	
 	private static HashMap sortByValues(HashMap map) { 
@@ -174,11 +168,8 @@ public class CrimesReader {
 				
 				  frequencyMap.put(data, 1);
 			   }
-			
 		}
 		
 		return frequencyMap;	
 	}
-	
-	
 }
